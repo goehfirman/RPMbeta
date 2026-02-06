@@ -1,0 +1,5 @@
+{
+  "name": "Generator RPM SDN Pekayon 09",
+  "description": "Aplikasi generator Perencanaan Pembelajaran Mendalam (RPM) otomatis menggunakan AI untuk guru SDN Pekayon 09.",
+  "requestFramePermissions": []
+}
