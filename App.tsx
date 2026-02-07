@@ -5,6 +5,7 @@ import RPMPreview from './components/RPMPreview';
 import { FormData, RPMResult } from './types';
 import { generateRPM } from './services/geminiService';
 import { Cpu, Zap, Clock, Calendar } from 'lucide-react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 
 const App: React.FC = () => {
   const [rpmResult, setRpmResult] = useState<RPMResult | null>(null);
@@ -114,6 +115,7 @@ const App: React.FC = () => {
           </div>
         </footer>
       </div>
+      <SpeedInsights />
     </div>
   );
 };
