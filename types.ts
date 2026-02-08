@@ -1,3 +1,4 @@
+
 export enum ClassLevel {
   Kelas1 = "1",
   Kelas2 = "2",
@@ -18,10 +19,14 @@ export enum Subject {
   BahasaIndonesia = "Bahasa Indonesia",
   IPAS = "IPAS",
   Matematika = "Matematika",
-  SeniBudaya = "Seni Budaya",
+  SeniRupa = "Seni Rupa",
+  SeniMusik = "Seni Musik",
+  SeniTari = "Seni Tari",
+  SeniTeater = "Seni Teater",
   BahasaInggris = "Bahasa Inggris",
   PLBJ = "PLBJ",
-  PJOK = "PJOK"
+  PJOK = "PJOK",
+  Lainnya = "Lainnya"
 }
 
 export enum PedagogicalPractice {
@@ -51,8 +56,8 @@ export interface MeetingPlan {
 export interface FormData {
   teacherName: string;
   teacherNIP: string;
-  principalName: string; // Default: Veria Wulandari
-  principalNIP: string; // Default: 198102012008012028
+  principalName: string;
+  principalNIP: string;
   classLevel: ClassLevel;
   semester: Semester;
   subject: Subject;
