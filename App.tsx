@@ -4,18 +4,36 @@ import InputForm from './components/InputForm';
 import RPMPreview from './components/RPMPreview';
 import { FormData, RPMResult } from './types';
 import { generateRPM } from './services/geminiService';
-import { Cpu, Zap, Clock, Calendar } from 'lucide-react';
+import { Cpu, Zap, Clock, Calendar, Lock, ArrowRight } from 'lucide-react';
+
+const WA_LOGO_URL = "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/3840px-WhatsApp.svg.png";
 
 const App: React.FC = () => {
   const [rpmResult, setRpmResult] = useState<RPMResult | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [dateTime, setDateTime] = useState(new Date());
+  
+  // State Autentikasi
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [password, setPassword] = useState('');
+  const [authError, setAuthError] = useState(false);
 
   // Pengatur Waktu Jam
   useEffect(() => {
     const timer = setInterval(() => setDateTime(new Date()), 1000);
     return () => clearInterval(timer);
   }, []);
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (password === 'teguhganteng') {
+      setIsAuthenticated(true);
+      setAuthError(false);
+    } else {
+      setAuthError(true);
+      setTimeout(() => setAuthError(false), 2000);
+    }
+  };
 
   const handleSubmit = async (data: FormData, apiKey: string) => {
     setIsLoading(true);
@@ -33,6 +51,58 @@ const App: React.FC = () => {
       setIsLoading(false);
     }
   };
+
+  // Tampilan Login / Proteksi Password
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-purple-100/40 via-transparent to-transparent">
+        <div className="max-w-md w-full bg-white/70 backdrop-blur-2xl border border-white p-8 rounded-3xl shadow-2xl shadow-purple-200/50 animate-fade-in-up relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-purple-500 via-fuchsia-500 to-purple-500"></div>
+          
+          <div className="text-center space-y-4 mb-8">
+            <div className="inline-flex p-4 bg-purple-50 rounded-2xl border border-purple-100 text-purple-600 mb-2">
+              <Lock size={32} />
+            </div>
+            <h1 className="text-2xl font-tech font-bold text-slate-800 tracking-tight">AKSES SISTEM RPM</h1>
+            <p className="text-slate-500 text-sm">Silakan masukkan password untuk melanjutkan ke Generator RPM SDN Pekayon 09.</p>
+          </div>
+
+          <form onSubmit={handleLogin} className="space-y-4">
+            <div className="relative">
+              <input 
+                type="password" 
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Masukkan Password..." 
+                className={`w-full px-5 py-4 bg-white border ${authError ? 'border-red-400 ring-4 ring-red-50' : 'border-slate-200 focus:border-purple-400 focus:ring-4 focus:ring-purple-100'} rounded-xl text-center font-bold tracking-[0.2em] outline-none transition-all duration-300 shadow-sm`}
+              />
+              {authError && <p className="text-red-500 text-[10px] font-bold mt-2 uppercase text-center animate-bounce">Password Salah!</p>}
+            </div>
+            
+            <button 
+              type="submit" 
+              className="w-full py-4 bg-slate-900 hover:bg-black text-white rounded-xl font-bold uppercase tracking-widest text-xs flex items-center justify-center gap-3 transition-all active:scale-95 shadow-lg"
+            >
+              Buka Akses <ArrowRight size={16} />
+            </button>
+          </form>
+
+          <div className="mt-10 pt-6 border-t border-slate-100 text-center">
+            <p className="text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-4">Butuh Bantuan Password?</p>
+            <a 
+              href="https://wa.me/6283816186000" 
+              target="_blank" 
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-[#25D366] hover:bg-[#20ba5a] text-white rounded-full font-bold text-xs transition-all shadow-md hover:shadow-lg active:scale-95"
+            >
+              <img src={WA_LOGO_URL} alt="WhatsApp Logo" className="w-5 h-5 object-contain" />
+              Hubungi Whatsapp
+            </a>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-900 selection:bg-purple-200 selection:text-purple-900">
@@ -103,11 +173,17 @@ const App: React.FC = () => {
 
         {/* Kaki Halaman */}
         <footer className="mt-20 py-8 text-center no-print border-t border-purple-100 bg-white/40 backdrop-blur">
-          <div className="max-w-7xl mx-auto px-4 flex flex-col items-center gap-2">
+          <div className="max-w-7xl mx-auto px-4 flex flex-col items-center gap-4">
             <Zap size={16} className="text-purple-400" />
             <p className="text-slate-400 text-xs font-bold tracking-widest uppercase">
                &copy; {new Date().getFullYear()} Sistem Digital SDN Pekayon 09
             </p>
+            <div className="flex items-center gap-4">
+              <a href="https://wa.me/6283816186000" target="_blank" rel="noreferrer" className="flex items-center gap-2 text-[#25D366] font-bold text-[10px] uppercase tracking-wider hover:underline">
+                <img src={WA_LOGO_URL} alt="WhatsApp Logo" className="w-3.5 h-3.5 object-contain" /> 
+                Hubungi Whatsapp
+              </a>
+            </div>
             <p className="text-slate-400 text-[10px] font-medium tracking-wide">
                Pengembang: Teguh Firmansyah Apriliana <span className="text-purple-500">@goehfirmaan</span>
             </p>
