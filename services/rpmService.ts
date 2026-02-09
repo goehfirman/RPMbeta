@@ -16,7 +16,7 @@ export async function generateRPM({
   const data = await res.json();
 
   if (!res.ok) {
-    throw new Error(data.message || "Failed generate RPM");
+    throw new Error(data.error || "Failed generate RPM");
   }
 
   return data.data;
